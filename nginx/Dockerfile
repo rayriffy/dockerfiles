@@ -1,6 +1,5 @@
-FROM nginxinc/nginx-unprivileged:1.24-alpine3.17 as base
+FROM nginx:1.24-alpine as base
 # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-USER root
 RUN echo "************" && find /usr/share -name "zoneinfo"
 RUN mkdir -p /opt/var/cache/nginx && \
     cp -a --parents /usr/lib/nginx /opt && \
@@ -24,5 +23,5 @@ FROM gcr.io/distroless/base-debian11 as runtime
 COPY --from=base /opt /
 EXPOSE 8080
 STOPSIGNAL SIGTERM
-USER 1001
+USER nginx
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
