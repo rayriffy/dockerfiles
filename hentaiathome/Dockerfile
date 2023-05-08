@@ -1,4 +1,4 @@
-FROM alpine:3.9 AS builder
+FROM alpine AS builder
 
 ENV HatH_VERSION 1.6.1
 ENV HatH_SHA256 b8889b2c35593004be061064fcb6d690ff8cbda9564d89f706f7e3ceaf828726
@@ -12,16 +12,21 @@ RUN apk --no-cache add unzip \
     && mkdir -p /hath/data \
     && mkdir -p /hath/download
 
-FROM openjdk:8-jre-alpine3.9 AS runtime
-
-ENV HatH_ARGS --cache-dir=/hath/data/cache --data-dir=/hath/data/data --download-dir=/hath/download --log-dir=/hath/data/log --temp-dir=/hath/data/temp
-
+FROM gcr.io/distroless/java17-debian11 as runtime
 COPY --from=builder /hath /hath
-COPY build/start.sh /hath/start.sh
 WORKDIR /hath
+CMD ['/hath/HentaiAtHome.jar', '--cache-dir=/hath/data/cache', '--data-dir=/hath/data/data', '--download-dir=/hath/download', '--log-dir=/hath/data/log', '--temp-dir=/hath/data/temp']
 
-RUN apk --no-cache add sqlite \
-    && chmod +x /hath/start.sh
+# FROM openjdk:8-jre-alpine3.9 AS runtime
 
-ENTRYPOINT ["/bin/sh", "-c"]
-CMD ["/hath/start.sh"]
+# ENV HatH_ARGS --cache-dir=/hath/data/cache --data-dir=/hath/data/data --download-dir=/hath/download --log-dir=/hath/data/log --temp-dir=/hath/data/temp
+
+# COPY --from=builder /hath /hath
+# COPY build/start.sh /hath/start.sh
+# WORKDIR /hath
+
+# RUN apk --no-cache add sqlite \
+#     && chmod +x /hath/start.sh
+
+# ENTRYPOINT ["/bin/sh", "-c"]
+# CMD ["/hath/start.sh"]

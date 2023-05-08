@@ -1,0 +1,29 @@
+Usage
+---
+
+Push secret token to directory
+
+```
+mkdir -p ./data/data
+echo -n "<H@H Key>" > ./data/data/client_login
+```
+
+Create `docker-compose` template and adjust settings accordingly
+
+```yml
+version: "3.9"
+services:
+  #
+  # Hentai@Home
+  #
+  hentaiathome:
+    container_name: hentaiathome
+    restart: unless-stopped
+    ports:
+      - "43654:43654"
+    volumes:
+      - ./data:/hath/data
+      - ./download:/hath/download
+    image: ghcr.io/rayriffy/hentaiathome:latest
+
+```
