@@ -15,4 +15,4 @@ RUN apk --no-cache add unzip \
 FROM gcr.io/distroless/java17-debian11 as runtime
 COPY --from=base /hath /hath
 WORKDIR /hath
-CMD ['HentaiAtHome.jar', '--cache-dir=/hath/data/cache', '--data-dir=/hath/data/data', '--download-dir=/hath/download', '--log-dir=/hath/data/log', '--temp-dir=/hath/data/temp']
+ENTRYPOINT ["/usr/bin/java", "-jar", "HentaiAtHome.jar", "--cache-dir=/hath/data/cache", "--data-dir=/hath/data/data", "--download-dir=/hath/download", "--log-dir=/hath/data/log", "--temp-dir=/hath/data/temp"]
