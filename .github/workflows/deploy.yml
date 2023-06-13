@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        IMAGES: [nginx, hentaiathome, bun]
+        IMAGES: [nginx, hentaiathome, bun, ga-runner-node]
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -33,25 +33,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: cache
-        uses: actions/cache@v3
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-${{ matrix.IMAGES }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.IMAGES }}-buildx
-
       - name: build
         uses: docker/build-push-action@v4
         with:
-          platforms: linux/amd64,linux/arm64
           push: true
           context: ${{ matrix.IMAGES }}
+          platforms: linux/amd64,linux/arm64
           tags: ghcr.io/${{ github.actor }}/${{ matrix.IMAGES }}:latest
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
-
-      - name: cache-modding
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
