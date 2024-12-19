@@ -1,10 +1,10 @@
-FROM myoung34/github-runner:debian-bullseye
+FROM myoung34/github-runner:debian-bookworm
 
 # chromium
 RUN apt-get install --no-install-recommends --yes chromium
 
 # nodejs
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && \
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash - && \
   apt-get install --no-install-recommends --yes nodejs && \
   npm i --location=global pnpm
 
