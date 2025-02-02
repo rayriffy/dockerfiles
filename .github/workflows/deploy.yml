@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        IMAGES: [nginx, hentaiathome, bun, ga-runner-node]
+        IMAGES: [nginx, hentaiathome, bun, ga-runner-node, puppeteer]
     steps:
       - name: checkout
         uses: actions/checkout@v3
