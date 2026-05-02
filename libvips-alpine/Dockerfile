@@ -20,5 +20,5 @@ RUN cd vips-$VIPS_VERSION && \
 
 FROM alpine AS runner
 
-COPY --from=builder /opt/vips/usr/local /usr/local
+COPY --from=builder /opt/vips /opt/vips
 RUN ldconfig
