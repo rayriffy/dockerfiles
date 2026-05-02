@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        IMAGES: [nginx, hentaiathome, puppeteer]
+        IMAGES: [nginx, hentaiathome, puppeteer, libvips-alpine]
     steps:
       - name: checkout
         uses: actions/checkout@v4
