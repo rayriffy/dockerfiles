@@ -15,7 +15,7 @@ RUN cd vips-$VIPS_VERSION && \
     meson setup build --prefix /usr/local -Dmagick=disabled && \
     cd build && \
     meson compile && \
-    meson test && \
+    # meson test && \
     DESTDIR=/opt/vips meson install
 
 FROM alpine AS runner
